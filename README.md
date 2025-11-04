@@ -28,7 +28,7 @@ A **skeleton template** is also provided for creating new CPU scheduling algorit
 
 - `Template_CPU_Scheduling.cpp`
 
-This file contains only the **basic structure** (input, logic, output, and Gantt chart blocks) without any specific algorithm logic — ideal for experimentation or building new schedulers.  
+This file contains only the **basic structure** (input, logic, output, and Gantt chart blocks) without any specific algorithm logic.  
 
 Each algorithm follows the same general structure, divided into **four blocks**:
 
