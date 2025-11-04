@@ -6,6 +6,30 @@ This repository contains C++ implementations of basic CPU scheduling algorithms 
 - **SJF** – Shortest Job First (non-preemptive)
 - **SRTF** – Shortest Remaining Time First (preemptive)
 
+### Idle Logic Versions
+
+In addition to the standard implementations, **separate files** are included that feature **idle time handling**, ensuring the CPU waits (stays idle) when no process is ready to execute.
+
+- `FCFS_idle.cpp` – FCFS with CPU idle handling  
+- `SJF_idle.cpp` – SJF with CPU idle handling  
+- `SRTF_idle.cpp` – SRTF with CPU idle handling  
+
+These versions simulate **realistic CPU scheduling**, where the CPU remains idle if no process has arrived yet.  
+
+They are kept **as separate files** to clearly distinguish between:
+- **Basic versions** - focus purely on algorithm logic. Idle time is reflected **only as a gap in the timeline**, not explicitly shown in the Gantt chart.  
+- **Idle versions** - explicitly show **CPU idle periods** in the Gantt chart, making the execution timeline more realistic.  
+
+This separation helps learners understand the **core scheduling logic** first, before studying the **extended behavior** with idle handling.
+
+### Template File
+
+A **skeleton template** is also provided for creating new CPU scheduling algorithms:
+
+- `Template_CPU_Scheduling.cpp`
+
+This file contains only the **basic structure** (input, logic, output, and Gantt chart blocks) without any specific algorithm logic — ideal for experimentation or building new schedulers.  
+
 Each algorithm follows the same general structure, divided into **four blocks**:
 
 1. **Block 1 – Input Section:** Collect process data from the user.  
