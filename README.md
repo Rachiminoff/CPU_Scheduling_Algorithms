@@ -2,9 +2,10 @@
 
 This repository contains C++ implementations of basic CPU scheduling algorithms specifically designed to work with **Turbo C++** for learning and reference purposes:
 
-- **FCFS** – First Come, First Served
-- **SJF** – Shortest Job First (non-preemptive)
-- **SRTF** – Shortest Remaining Time First (preemptive)
+- **FCFS** – First Come, First Served  
+- **SJF** – Shortest Job First (non-preemptive)  
+- **SRTF** – Shortest Remaining Time First (preemptive)  
+- **Priority** – Priority Scheduling (non-preemptive)
 
 ### Idle Logic Versions
 
@@ -13,12 +14,15 @@ In addition to the standard implementations, **separate files** are included tha
 - `FCFS_idle.cpp` – FCFS with CPU idle handling  
 - `SJF_idle.cpp` – SJF with CPU idle handling  
 - `SRTF_idle.cpp` – SRTF with CPU idle handling  
-
+- `Priority_idle.cpp` – Priority (Non-Preemptive) with CPU idle handling
+  
 These versions simulate **realistic CPU scheduling**, where the CPU remains idle if no process has arrived yet.  
 
+Starting from the **Priority (Non-Preemptive)** algorithm onward, all codes now include **idle time handling by default**.  
 They are kept **as separate files** to clearly distinguish between:
-- **Basic versions** - focus purely on algorithm logic. Idle time is reflected **only as a gap in the timeline**, not explicitly shown in the Gantt chart.  
-- **Idle versions** - explicitly show **CPU idle periods** in the Gantt chart, making the execution timeline more realistic.  
+
+- **Algorithms with idle logic** – where the CPU remains idle when no process is ready to execute.
+- **Algorithms without idle logic** – standard versions for comparison and simplicity.
 
 ### Template File
 
