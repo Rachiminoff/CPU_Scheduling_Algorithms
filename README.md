@@ -20,8 +20,6 @@ They are kept **as separate files** to clearly distinguish between:
 - **Basic versions** - focus purely on algorithm logic. Idle time is reflected **only as a gap in the timeline**, not explicitly shown in the Gantt chart.  
 - **Idle versions** - explicitly show **CPU idle periods** in the Gantt chart, making the execution timeline more realistic.  
 
-This separation helps learners understand the **core scheduling logic** first, before studying the **extended behavior** with idle handling.
-
 ### Template File
 
 A **skeleton template** is also provided for creating new CPU scheduling algorithms:
