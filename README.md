@@ -5,7 +5,7 @@ This repository contains C++ implementations of basic CPU scheduling algorithms 
 - **FCFS** – First Come, First Served  
 - **SJF** – Shortest Job First (non-preemptive)  
 - **SRTF** – Shortest Remaining Time First (preemptive)  
-- **Priority** – Priority Scheduling (non-preemptive)
+- **Priority** – Priority Scheduling (non-preemptive and preemptive)
 
 ### Template File
 
@@ -43,7 +43,9 @@ Each algorithm follows the same general structure, divided into **four blocks**:
 - **FCFS:** Run processes in order of arrival, no preemption.  
 - **SJF:** Pick the process with the shortest burst time among ready processes.  
 - **SRTF:** Pick the process with the shortest remaining time at each moment; preempt if a shorter process arrives.
-
+- **Priority (Non-Preemptive):** Among ready processes, run the one with the *highest priority* (lowest priority number if using 1 = highest). Once it starts, it finishes without interruption.  
+- **Priority (Preemptive):** At every unit of time, choose the ready process with the highest priority. If a new process arrives with higher priority than the running one, **it preempts immediately**.
+  
 ## Purpose
 
 The codes are intended for educational use and as an archive for study/reference.
