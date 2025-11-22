@@ -5,7 +5,7 @@
 class Process {
 public:
     char id;
-    int at, bt, ct, tat, wt, rt, done, pr;
+    int at, bt, ct, tat, wt, rt, done, prio;    
 };
 
 void main() {
@@ -17,8 +17,7 @@ void main() {
 
     Process p[20];
 
-    // Input
-    for (i = 0; i < n; i++) {
+    for(i = 0; i < n; i++){
         cout << "\nEnter Process ID: ";
         cin >> p[i].id;
         cout << "Arrival Time: ";
@@ -26,75 +25,78 @@ void main() {
         cout << "Burst Time: ";
         cin >> p[i].bt;
         cout << "Priority (lower = higher priority): ";
-        cin >> p[i].pr;
+        cin >> p[i].prio;
 
         p[i].rt = p[i].bt;
         p[i].done = 0;
     }
 
-    // Sort by arrival time
-    for (i = 0; i < n - 1; i++) {
-        for (j = i + 1; j < n; j++) {
-            if (p[i].at > p[j].at) {
+    // sort by arrival
+    for(i = 0; i < n - 1; i++){
+        for(j = i + 1; j < n; j++){
+            if(p[i].at > p[j].at){
                 Process temp = p[i];
                 p[i] = p[j];
                 p[j] = temp;
             }
         }
     }
-// BLOCK 2
+
+    // BLOCK 2
+
     int t = 0, completed = 0, busy = 0;
     float avgtat = 0, avgwt = 0;
-    int ganttOrder[500], ganttTime[500];
+
+    int ganttOrder[100], ganttTime[100];
     int ganttCount = 0;
 
-    int prev = -2;  // previous running process for detecting context switch
-
-    while (completed < n) {
-
+    while(completed < n){
         int idx = -1;
-        int best_pr = 9999;
+        int bestPrio = 9999;
 
-        // Select highest priority READY process (lowest priority number)
-        for (i = 0; i < n; i++) {
-            if (p[i].at <= t && p[i].done == 0 && p[i].rt > 0) {
-                if (p[i].pr < best_pr) {
-                    best_pr = p[i].pr;
+        // choose highest priority among ready processes
+        for(i = 0; i < n; i++){
+            if(p[i].at <= t && p[i].done == 0 && p[i].rt > 0){
+
+                if(p[i].prio < bestPrio){
+                    bestPrio = p[i].prio;
+                    idx = i;
+                }
+                // tie: earlier arrival
+                else if(p[i].prio == bestPrio && p[i].at < p[idx].at){
                     idx = i;
                 }
             }
         }
 
-        // If no process is ready, CPU is IDLE
-        if (idx == -1) {
-
-            // Record IDLE only when switching into idle state
-            if (prev != -1) {
-                ganttOrder[ganttCount] = -1;  // -1 means IDLE
-                ganttTime[ganttCount] = t;
-                ganttCount++;
-                prev = -1;
+        // IDLE CPU
+        if(idx == -1){
+            int nextArrival = 9999;
+            for(i = 0; i < n; i++){
+                if(p[i].done == 0 && p[i].at < nextArrival)
+                    nextArrival = p[i].at;
             }
 
-            t++;   // move time forward
+            ganttOrder[ganttCount] = -1;  
+            ganttTime[ganttCount] = t;
+            ganttCount++;
+
+            t = nextArrival;
             continue;
         }
 
-        // Context switch tracking (process change recorded)
-        if (prev != idx) {
-            ganttOrder[ganttCount] = idx;
-            ganttTime[ganttCount] = t;
-            ganttCount++;
-            prev = idx;
-        }
+        // record execution in gantt
+        ganttOrder[ganttCount] = idx;
+        ganttTime[ganttCount] = t;
+        ganttCount++;
 
-        // Execute for 1 time unit
+        // run for 1 time unit
         p[idx].rt--;
         t++;
-        busy++;          
+        busy++;
 
-        // Process completed
-        if (p[idx].rt == 0) {
+        // process finished
+        if(p[idx].rt == 0){
             p[idx].done = 1;
             p[idx].ct = t;
             p[idx].tat = p[idx].ct - p[idx].at;
@@ -102,14 +104,16 @@ void main() {
             completed++;
         }
     }
-// BLOCK 3
-    cout << "\n\nID\tAT\tBT\tP\tCT\tTAT\tWT";
-    cout << "\n-------------------------------------------------------\n";
-    for (i = 0; i < n; i++) {
+
+    // BLOCK 3
+    cout << "\n\nID\tAT\tBT\tPRIO\tCT\tTAT\tWT";
+    cout << "\n---------------------------------------------------\n";
+
+    for(i = 0; i < n; i++){
         cout << p[i].id << "\t"
              << p[i].at << "\t"
              << p[i].bt << "\t"
-             << p[i].pr << "\t"
+             << p[i].prio << "\t"
              << p[i].ct << "\t"
              << p[i].tat << "\t"
              << p[i].wt << "\n";
@@ -122,24 +126,25 @@ void main() {
     float cpu = (busy * 100.0) / totalTime;
 
     cout << "\nAVG TAT: " << avgtat / n;
-    cout << "\nAVG WT : " << avgwt / n;
-    cout << "\nCPU Util: " << cpu << "%";
+    cout << "\nAVG WT: " << avgwt / n;
+    cout << "\nCPU UTIL: " << cpu << "%";
 
-// BLOCK 4
+    // BLOCK 4 
     cout << "\n\nGANTT CHART\n";
 
-    // process labels
-    for (i = 0; i < ganttCount; i++) {
-        if (ganttOrder[i] == -1)
-            cout << "|  IDLE  ";
-        else
-            cout << "|  P" << p[ganttOrder[i]].id << "  ";
+    for(i = 0; i < ganttCount; i++){
+        if(i == 0 || ganttOrder[i] != ganttOrder[i - 1]) {
+            if(ganttOrder[i] == -1)
+                cout << "|  IDLE  ";
+            else
+                cout << "|  P" << p[ganttOrder[i]].id << "  ";
+        }
     }
     cout << "|\n";
 
-    // time markers
-    for (i = 0; i < ganttCount; i++) {
-        cout << ganttTime[i] << "\t";
+    for(i = 0; i < ganttCount; i++){
+        if(i == 0 || ganttOrder[i] != ganttOrder[i - 1])
+            cout << ganttTime[i] << "\t";
     }
     cout << t;
 
