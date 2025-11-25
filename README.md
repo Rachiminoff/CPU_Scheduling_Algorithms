@@ -6,6 +6,7 @@ This repository contains C++ implementations of basic CPU scheduling algorithms 
 - **SJF** – Shortest Job First (non-preemptive)  
 - **SRTF** – Shortest Remaining Time First (preemptive)  
 - **Priority** – Priority Scheduling (non-preemptive and preemptive)
+- **RR** – Round Robin (time-shared, cyclic order, preemptive)
 
 ### Template File
 
@@ -45,6 +46,7 @@ Each algorithm follows the same general structure, divided into **four blocks**:
 - **SRTF:** Pick the process with the shortest remaining time at each moment; preempt if a shorter process arrives.
 - **Priority (Non-Preemptive):** Among ready processes, run the one with the *highest priority* (lowest priority number if using 1 = highest). Once it starts, it finishes without interruption.  
 - **Priority (Preemptive):** At every unit of time, choose the ready process with the highest priority. If a new process arrives with higher priority than the running one, **it preempts immediately**.
+- **RR (Round Robin):** Each process receives a fixed Time Quantum in cyclic order. If the process is not finished after its quantum, it is placed back into the queue. It is **Preemptive** by design.
   
 ## Purpose
 
