@@ -90,6 +90,10 @@ void main() {
         // If no process can run, move time forward (CPU idle)
         if (done == 1) {
             time++;
+
+            ganttProcess[ganttIndex] = 'I'; // IDLE indicator
+            ganttTime[ganttIndex] = time;
+            ganttIndex++;
         }
     }
 
@@ -125,7 +129,10 @@ void main() {
 
     // Print process boxes
     for (i = 0; i < ganttIndex; i++) {
-        cout << "| P" << ganttProcess[i] << " ";
+        if (ganttProcess[i] == 'I')
+            cout << "| IDLE ";
+        else
+            cout << "| P" << ganttProcess[i] << " ";
     }
     cout << "|\n";
 
